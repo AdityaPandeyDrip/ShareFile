@@ -9,7 +9,19 @@
             <br>
             <%= "filename: #{file.filename}"  %>
             <%= link_to 'Share Link', "#{get_url(file)}"%>
+            <%= link_to 'Send File', share_new_path(file: file)%>
             <%= link_to 'Delete', file_delete_path(file: file), :data => { :confirm => 'Are you sure?' }, method: "delete"%>
+        <% end %>
+    <% end %>
+    <br><br>
+    <% if @shared_files.any?%>
+        <h3>Shared Files</h3>
+        <% @shared_files.each do |file| %>
+            <br>
+            <%= "filename: #{file.filename}"  %>
+            <%= link_to 'Share Link', "#{get_url(file)}"%>
+            <%= link_to 'Send File', share_new_path(file: file)%>
+            <%= link_to 'Delete', share_delete_path(file: file), :data => { :confirm => 'Are you sure?' }, method: "delete"%>
         <% end %>
     <% end %>
     <br><br>

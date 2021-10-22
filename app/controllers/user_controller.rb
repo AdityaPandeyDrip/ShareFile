@@ -16,6 +16,7 @@ class UserController < ApplicationController
 
   def index
     @files = @current_user.files if current_user
+    @shared_files = @current_user.shared_files if current_user
   end
 
   private

@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_secure_password
   has_many_attached :files
+  has_many_attached :shared_files
   validates :user_name, :first_name, :email, :password_digest, presence: true
   validates :user_name, length: { maximum: 15 }, uniqueness: true
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }

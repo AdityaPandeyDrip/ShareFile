@@ -9,4 +9,8 @@ Rails.application.routes.draw do
 
   post 'file/attach' => 'file#attach'
   delete 'file/delete' => 'file#delete'
+
+  get 'share/new' => 'share#new'
+  post 'share/create' => 'share#create'
+  delete 'share/delete' => 'share#delete'
 end

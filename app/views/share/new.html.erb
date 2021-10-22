@@ -1,0 +1,8 @@
+<%= form_with url: '/share/create' do |form| %>
+    <h2> Sign Up </h2>        
+    <%= form.label :email %>
+    <%= form.text_field :email %>
+    <%= form.label :FileId %>
+    <%= form.text_field :file, value:@file%>
+    <%=  submit_tag("Share") %>
+<% end %>
