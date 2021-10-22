@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
   def new
-    if session[:user_id]
-      redirect_to '/' if User.find(session[:user_id])
+    if session[:user_id] && User.find(session[:user_id])
+      redirect_to '/'
     end
   end
 
@@ -9,6 +9,7 @@ class SessionsController < ApplicationController
     user = User.find_by(email: params[:email])
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
+      current_user
       flash[:notice] = 'Login successful'
       redirect_to '/'
     else

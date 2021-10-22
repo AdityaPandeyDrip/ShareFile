@@ -15,6 +15,7 @@ class UserController < ApplicationController
   end
 
   def index
+    @files = @current_user.files if current_user
   end
 
   private
