@@ -21,27 +21,31 @@ class UserController < ApplicationController
   def index
     return redirect_to '/login' unless current_user
 
-    if params[:sort] == 'created_at'
-      @files = @current_user.files.order(params[:sort])
-    elsif params[:sort] == 'name'
-      @files = @current_user.files.all.sort_by{|file| file.filename }
-    elsif params[:sort] == 'size'
-      @files = @current_user.files.all.sort_by{|file| file.byte_size }
-    else
-      @files = @current_user.files
+    @files = @current_user.files
+            .joins(:blob).where('filename LIKE ?', "#{params[:hint]}%")
+            .includes(:blob)
+            .select("active_storage_attachments.*")
+
+    case params[:sort]
+    when 'created_at'
+      @files = @files.order(params[:sort])
+    when 'name'
+      @files = @files.all.sort_by{|file| file.filename }
+    when 'size'
+      @files = @files.all.sort_by{|file| file.byte_size }
     end
 
-    if params[:share_sort] == 'created_at'
+    case params[:share_sort]
+    when'created_at'
       @shared_files = @current_user.shared_files.order(params[:share_sort])
-    elsif params[:share_sort] == 'name'
+    when 'name'
       @shared_files = @current_user.shared_files.all.sort_by{|file| file.filename }
-    elsif params[:share_sort] == 'size'
+    when 'size'
       @shared_files = @current_user.shared_files.all.sort_by{|file| file.byte_size }
     else
       @shared_files = @current_user.shared_files
     end
 
-    @files = @files.blobs.where('filename LIKE ?', "#{params[:hint]}%")
   end
 
   private
