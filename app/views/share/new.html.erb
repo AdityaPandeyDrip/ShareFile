@@ -1,8 +1,14 @@
-<%= form_with url: '/share/create' do |form| %>
-    <h2> Sign Up </h2>        
-    <%= form.label :email %>
-    <%= form.text_field :email %>
-    <%= form.label :FileId %>
-    <%= form.text_field :file, value:@file%>
-    <%=  submit_tag("Share") %>
-<% end %>
+<div class="signup-form">
+    <%= form_with url: '/share/create' do |form| %>
+        <h3> Send File </h3>  
+        <hr>
+        <div class="form-group">      
+            <%= form.label :email %>
+            <%= form.text_field :email,class: "form-control" %>
+        </div>
+        <%= form.hidden_field :file, value: @file %>
+        <div class="form-group">
+            <%= form.submit "Submit", class: 'btn btn-primary btn-block btn-lg' %>
+        </div>
+    <% end %>
+</div>

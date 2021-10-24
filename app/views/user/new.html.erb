@@ -1,18 +1,39 @@
-<%= form_for :user, url: '/user/create' do |form| %>
-    <h2> Sign Up </h2>
-        
-    <%= form.label :first_name %>
-    <%= form.text_field :first_name %>
-    <%= form.label :last_name %>
-    <%= form.text_field :last_name %>
-    <%= form.label :user_name %>
-    <%= form.text_field :user_name %>
-        
-    <%= form.label :email %>
-    <%= form.text_field :email %>
-    
-    <%= form.label :password %>
-    <%= form.password_field :password %>
-        
-    <%=  submit_tag("Create Account") %>
-<% end %>
+<div class="signup-form">
+    <%= form_for(:user, url: '/user/create', method: 'post') do |f| %>
+		<h2>Sign Up</h2>
+		<hr>
+        <div class="form-group">
+            <%= f.label :user_name, 'Username' %>
+            <%= f.text_field :user_name, class: "form-control", 
+                required: true, maxlength: 15 %>
+        </div>
+        <div class="form-group">
+            <%= f.label :first_name, 'First Name' %>
+            <%= f.text_field :first_name, class: "form-control", 
+                required: true %>
+        </div>
+        <div class="form-group">
+            <%= f.label :last_name, 'Last Name' %>
+            <%= f.text_field :last_name, class: "form-control", 
+                required: true %>
+        </div>
+        <div class="form-group">
+            <%= f.label :email, 'Email Address' %>
+            <%= f.email_field :email, class: "form-control", 
+                required: true %>
+        </div>
+		<div class="form-group">
+            <%= f.label :password, 'Password'%>
+            <%= f.password_field :password, 
+                class: "form-control", 
+                required: true, minlength: 8, maxlength: 15,
+                pattern: '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*',
+                title: 'Password must contain atleast one uppercase, lowercase and number'
+            %>
+        </div>
+		<div class="form-group">
+            <%= f.submit "Sign Up", class: 'btn btn-primary btn-block btn-lg' %>
+        </div>
+    <% end %>
+	<div class="text-center">Already have an account? <%= link_to "Login here", 'login' %></div>
+</div>
