@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  helper_method :current_user, :get_url, :file_size_verbose
+  helper_method :current_user, :get_url, :file_size_verbose, :get_shared_url
 
   def current_user
     @current_user = User.find(session[:user_id]) if session[:user_id]
@@ -7,6 +7,11 @@ class ApplicationController < ActionController::Base
 
   def authenticate_user
     redirect_to '/login' unless current_user
+  end
+
+  def get_shared_url(user_id, file_id)
+    shared_file = User.find(user_id).files.find(file_id)
+    get_url(shared_file) if shared_file.present?
   end
 
   def get_url(blob)

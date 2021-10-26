@@ -10,7 +10,7 @@ class FileController < ApplicationController
         flash[:notice] = 'File uploading Unsuccessfull'
       end
     else
-      flash[:notice] = 'File size should be less than 1 Megabyte'
+      flash[:notice] = 'File size should be less than 10 Megabyte'
     end
     redirect_to '/'
   end
@@ -19,6 +19,7 @@ class FileController < ApplicationController
     file = @current_user.files.find_by(id: params[:file])
     if file.present?
       file.purge
+      @current_user.shared_file_associations.where(file_id: 1).destroy_all
       flash[:notice] = 'File Deleted Successfully'
     else
       flash[:notice] = 'File Deletion Unsuccessfull'

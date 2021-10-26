@@ -41,7 +41,7 @@
                                 <td><%= file.created_at.strftime("%-d %b %Y %H:%M") %></td>
                                 <td><%= file_size_verbose file.byte_size %></td>
                                 <td>
-                                    <%= link_to 'Download', file, download: '' %> |&nbsp;
+                                    <%= link_to 'Download', "#{get_url(file)}", download: '' %> |&nbsp;
                                     <%= link_to 'Delete', file_delete_path(file: file), :data => { :confirm => 'Are you sure?' }, method: "delete"%>
                                 </td>
                                 <td>
@@ -69,7 +69,8 @@
                             <th><%= link_to "Shared On", :share_sort => "created_at"%> </th>
                             <th><%= link_to "Size", :share_sort => "size"%> </th>
                             <th>Actions</th>
-                            <th>Sharing</th>
+                            <th>Shared_by</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -79,12 +80,10 @@
                                 <td><%= file.created_at.strftime("%-d %b %Y %H:%M") %></td>
                                 <td><%= file_size_verbose file.byte_size %></td>
                                 <td>
-                                    <%= link_to 'Download', file, download: '' %> |&nbsp;
+                                    <%= link_to 'Download', get_shared_url(file.user_id, file.file_id), download: '' %> |&nbsp; 
                                     <%= link_to 'Delete', share_delete_path(file: file), :data => { :confirm => 'Are you sure?' }, method: "delete"%>
                                 </td>
-                                <td>
-                                    <%= link_to 'Share Link', "#{get_url(file)}"%>| <%= link_to 'Send File', share_new_path(file: file)%>
-                                </td>
+                                <td><%= file.email %></td>
                             </tr>
                         <% end %>
                     </tbody>

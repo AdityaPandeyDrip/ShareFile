@@ -1,14 +1,19 @@
 class ShareController < ApplicationController
   before_action :authenticate_user
   def create
-    email = params[:email]
-    file = @current_user.files.find_by(id: params[:file]).blob if params[:file].present?
-    user = User.find_by(email: email)
+    user = User.find_by(email: params[:email])
+    file = @current_user.files.find_by(id: params[:file]) if params[:file].present?
+
     if user.present? && file.present? && user != @current_user
-      if user.shared_files.attach(file)
-        flash[:notice] = 'File shared Successfully'
-      else
+      shared_file = SharedFileAssociation.create(
+                        user_id: @current_user.id,
+                        shared_user_id: user.id,
+                        file_id: file.id
+                      )
+      if shared_file.errors.present?
         flash[:notice] = 'File sharing Unsuccessfull'
+      else
+        flash[:notice] = 'File shared Successfully'
       end
     else
       flash[:notice] = 'EmailId Invalid'
@@ -21,9 +26,9 @@ class ShareController < ApplicationController
   end
 
   def delete
-    file = @current_user.shared_files.find_by(id: params[:file])
-    if file.present?
-      file.purge
+    shared_file = SharedFileAssociation.find_by(id: params[:file], shared_user_id: @current_user.id)
+    if shared_file.present?
+      shared_file.destroy
       flash[:notice] = 'Shared File Deleted Successfully'
     else
       flash[:notice] = 'Shared File Deletion Unsuccessfull'

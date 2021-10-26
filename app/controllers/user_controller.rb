@@ -35,17 +35,15 @@ class UserController < ApplicationController
       @files = @files.all.sort_by{|file| file.byte_size }
     end
 
+    @shared_files = SharedFileAssociation.get_shared_files(@current_user.id)
     case params[:share_sort]
-    when'created_at'
-      @shared_files = @current_user.shared_files.order(params[:share_sort])
+    when 'created_at'
+      @shared_files = @shared_files.order(params[:share_sort])
     when 'name'
-      @shared_files = @current_user.shared_files.all.sort_by{|file| file.filename }
+      @shared_files = @shared_files.all.sort_by{|file| file.filename }
     when 'size'
-      @shared_files = @current_user.shared_files.all.sort_by{|file| file.byte_size }
-    else
-      @shared_files = @current_user.shared_files
+      @shared_files = @shared_files.all.sort_by{|file| file.byte_size }
     end
-
   end
 
   private
