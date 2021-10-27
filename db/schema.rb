@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(version: 2021_10_26_112315) do
     t.integer "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id", "file_id"], name: "index_user_and_file_uniqueness", unique: true
+    t.index ["user_id", "file_id"], name: "index_shared_file_associations_on_user_id_and_file_id"
     t.index ["user_id"], name: "index_shared_file_associations_on_user_id"
   end
 

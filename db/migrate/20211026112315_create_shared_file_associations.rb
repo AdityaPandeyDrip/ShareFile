@@ -6,7 +6,7 @@ class CreateSharedFileAssociations < ActiveRecord::Migration[6.1]
       t.integer :user_id
       t.timestamps
     end
-    add_index :shared_file_associations, %i[user_id file_id], name: 'index_user_and_file_uniqueness', unique: true
+    add_index :shared_file_associations, %i[user_id file_id]
     add_index :shared_file_associations, :user_id
   end
 end
