@@ -5,11 +5,17 @@ class ShareController < ApplicationController
     file = @current_user.files.find_by(id: params[:file]) if params[:file].present?
 
     if user.present? && file.present? && user != @current_user
-      shared_file = SharedFileAssociation.create(
-                        user_id: @current_user.id,
-                        shared_user_id: user.id,
-                        file_id: file.id
-                      )
+      shared_file = SharedFileAssociation.find_by(user_id: @current_user.id,
+        shared_user_id: user.id,
+        file_id: file.id
+      )
+      if shared_file.blank?
+        shared_file = SharedFileAssociation.create(
+                          user_id: @current_user.id,
+                          shared_user_id: user.id,
+                          file_id: file.id
+                        )
+      end
       if shared_file.errors.present?
         flash[:notice] = 'File sharing Unsuccessfull'
       else
